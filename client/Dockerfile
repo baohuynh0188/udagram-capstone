@@ -5,7 +5,7 @@ FROM node:12
 WORKDIR /app
 
 # Copying all the files in our project
-COPY package*.json /.
+COPY package*.json ./
 COPY ./ ./
 
 # Installing dependencies
