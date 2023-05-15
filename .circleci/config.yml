@@ -1,0 +1,40 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.1.0
+
+executors:
+  docker-publisher:
+    environment:
+      CLIENT: baohuynh0188/client
+    docker:
+      - image: 'docker:stable'
+
+jobs:
+  build:
+    working_directory: /client
+    executor: docker-publisher
+    steps:
+      - checkout
+      # Set up a separate Docker environment to run `docker` commands in
+      - setup_remote_docker
+      - run:
+          name: Install dependencies
+          command: |
+            echo "Install dependencies"
+      - run:
+          name: Build Docker images
+          command: |
+            echo "Build Docker images"
+            docker --version
+
+            echo "Build Docker client image"
+            docker build -t client ./client
+            docker tag client $CLIENT
+
+            echo "All images succesfully built"
+      - deploy:
+          name: Push application Docker images
+          command: |
+            docker login -u $DOCKER_HUB_USER_ID -p $DOCKER_HUB_PWD
+            docker push $CLIENT:latest
