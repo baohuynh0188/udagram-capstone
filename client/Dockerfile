@@ -6,10 +6,12 @@ WORKDIR /app
 
 # Copying all the files in our project
 COPY package*.json ./
-COPY ./ ./
 
 # Installing dependencies
 RUN npm install
 
+# Copy everything to /app directory
+COPY ./ ./
+
 # Starting our application
-CMD ["npm", "run", "start"]
+CMD ["npm", "start"]
