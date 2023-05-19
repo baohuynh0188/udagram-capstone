@@ -56,7 +56,8 @@ To get results of asynchronous operations, a student is using async/await constr
 <img width="1128" alt="image" src="https://github.com/baohuynh0188/udagram-capstone/assets/44991601/545e5aeb-2acd-40c1-b009-de91281c308d">
 
 Websocket
-<img width="1128" alt="image" src="https://github.com/baohuynh0188/udagram-capstone/assets/44991601/e50747f1-8bb7-448d-9bb0-4df8f05b03b6">
+
+<img width="801" alt="image" src="https://github.com/baohuynh0188/udagram-capstone/assets/44991601/a2e83001-f49a-4e52-aa10-b6c5fa9472bd">
 
 Resize image
 <img width="1440" alt="image" src="https://github.com/baohuynh0188/udagram-capstone/assets/44991601/a96c4a7d-e7be-4a45-bbb6-6fc4e07fa9e8">
