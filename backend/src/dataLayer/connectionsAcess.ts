@@ -16,14 +16,20 @@ export const saveItem = async (connectionId: string) => {
         timestamp: new Date().toISOString(),
     };
 
-    logger.info('Saving item', item);
+    logger.info('Saving item: ', item.id);
 
     const params = {
         TableName: connectionsTable,
         Item: item,
     };
 
-    await docClient.put(params).promise();
+    try {
+        await docClient.put(params).promise();
+
+        logger.info('Item is saved');
+    } catch (error) {
+        logger.error('Error while saved item: ', JSON.stringify(error));
+    }
 };
 
 export const removeItem = async (connectionId: string) => {
@@ -31,14 +37,20 @@ export const removeItem = async (connectionId: string) => {
         id: connectionId,
     };
 
-    logger.info('Removing item with key', key);
+    logger.info('Removing item with key: ', key.id);
 
     const params = {
         TableName: connectionsTable,
         Key: key,
     };
 
-    await docClient.delete(params).promise();
+    try {
+        await docClient.delete(params).promise();
+
+        logger.info('Item is removed');
+    } catch (error) {
+        logger.error('Error while remove item: ', JSON.stringify(error));
+    }
 };
 
 const connectionsAcess = {
