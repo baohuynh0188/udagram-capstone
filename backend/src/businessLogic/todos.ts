@@ -5,7 +5,7 @@ import {
     deleteTodoItem,
     updateTodoItem,
     updateTodoAttachmentUrl,
-} from '../dataLayer/todosAcess';
+} from '../dataLayer/todosAccess';
 import { getSignedUrl } from '../helpers/attachmentUtils';
 import TodoItem from '../models/TodoItem';
 import { CreateTodoRequest } from '../requests/CreateTodoRequest';

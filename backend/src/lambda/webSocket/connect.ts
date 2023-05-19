@@ -5,10 +5,9 @@ import {
     APIGatewayProxyResult,
 } from 'aws-lambda';
 import { createLogger } from '../../utils/logger';
-import { saveItem } from '../../dataLayer/connectionsAcess';
+import { saveItem } from '../../dataLayer/connectionsAccess';
 
 const logger = createLogger('createTodoHandler');
-
 
 export const handler: APIGatewayProxyHandler = async (
     event: APIGatewayProxyEvent

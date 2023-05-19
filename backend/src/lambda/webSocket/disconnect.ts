@@ -5,7 +5,7 @@ import {
     APIGatewayProxyResult,
 } from 'aws-lambda';
 import { createLogger } from '../../utils/logger';
-import { removeItem } from '../../dataLayer/connectionsAcess';
+import { removeItem } from '../../dataLayer/connectionsAccess';
 
 const logger = createLogger('createTodoHandler');
 
