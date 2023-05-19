@@ -131,7 +131,11 @@ export default class ActionTodo extends React.PureComponent<
   render() {
     return (
       <div>
-        <h1>Create a new todo</h1>
+        <h1>
+          {this.props.match.params.todoId === 'create-todo'
+            ? 'Create a new todo'
+            : 'Edit todo'}
+        </h1>
 
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
