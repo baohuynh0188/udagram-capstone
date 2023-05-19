@@ -46,6 +46,26 @@ functions:
   Auth:
     handler: src/lambda/auth/rs256Auth0Authorizer.handler
 
+  GetTodo:
+    handler: src/lambda/http/getTodo.handler
+    events:
+      - http:
+          method: GET
+          path: /todos/{todoId}
+          cors: true
+          authorizer: Auth
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem
+        Resource: !GetAtt TodosTable.Arn
+
+      - Effect: Allow
+        Action:
+          - xray:PutTelemetryRecords
+          - xray:PutTraceSegments
+        Resource: '*'
+
   GetTodos:
     handler: src/lambda/http/getTodos.handler
     events:

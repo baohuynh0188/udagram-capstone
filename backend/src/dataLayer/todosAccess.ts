@@ -25,6 +25,24 @@ const todosTable = process.env.TODOS_TABLE;
 const todosCreatedAtIndex = process.env.TODOS_CREATED_AT_INDEX;
 const attachmentS3Bucket = process.env.ATTACHMENT_S3_BUCKET;
 
+export const getTodoById = async (
+    userId: string,
+    todoId: string
+): Promise<TodoItem> => {
+    logger.info(`Getting a todo by id: ${todoId}`);
+
+    const getParams = {
+        TableName: todosTable,
+        Key: {
+            userId,
+            todoId,
+        },
+    };
+    const result = await docClient.get(getParams).promise();
+
+    return result.Item as TodoItem;
+};
+
 export const getTodosByUserId = async (userId: string): Promise<TodoItem[]> => {
     logger.info('Getting all todos');
 
@@ -136,6 +154,7 @@ export const updateTodoAttachmentUrl = async (
 };
 
 const todosAccess = {
+    getTodoById,
     getTodosByUserId,
     createTodoItem,
     updateTodoItem,

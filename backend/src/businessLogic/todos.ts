@@ -1,5 +1,6 @@
 import { v4 as uuidV4 } from 'uuid';
 import {
+    getTodoById,
     getTodosByUserId,
     createTodoItem,
     deleteTodoItem,
@@ -13,6 +14,14 @@ import { UpdateTodoRequest } from '../requests/UpdateTodoRequest';
 import { createLogger } from '../utils/logger';
 
 const logger = createLogger('Todos');
+
+export const getTodo = async (
+    userId: string,
+    todoId: string
+): Promise<TodoItem> => {
+    logger.info('getTodoById is processing');
+    return await getTodoById(userId, todoId);
+};
 
 export const getTodosForUser = async (userId: string): Promise<TodoItem[]> => {
     logger.info('getTodosForUser is processing');
