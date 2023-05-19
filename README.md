@@ -3,6 +3,7 @@ This is capstone serverless project
 
 *endpoints:*
  * GET - https://ai36st6cxl.execute-api.us-east-1.amazonaws.com/dev/todos
+ * GET - https://ai36st6cxl.execute-api.us-east-1.amazonaws.com/dev/todos/{todoId}
  * POST - https://ai36st6cxl.execute-api.us-east-1.amazonaws.com/dev/todos
  * PATCH - https://ai36st6cxl.execute-api.us-east-1.amazonaws.com/dev/todos/{todoId}
  * DELETE - https://ai36st6cxl.execute-api.us-east-1.amazonaws.com/dev/todos/{todoId}
@@ -10,6 +11,22 @@ This is capstone serverless project
  * wss://d6kfet1qrk.execute-api.us-east-1.amazonaws.com/dev
 
 # PROJECT SPECIFICATION
+Implement a new endpoint to get a todo by it's id
+* GET - https://ai36st6cxl.execute-api.us-east-1.amazonaws.com/dev/todos/{todoId}
+
+Update UI and logic
+- To create a todo, click the button "Create a new to do"
+<img width="1216" alt="image" src="https://github.com/baohuynh0188/udagram-capstone/assets/44991601/f74c8aa8-a8cb-401d-b278-487dadca33b8">
+- Enter "Title" and "Image" and then save
+<img width="1205" alt="image" src="https://github.com/baohuynh0188/udagram-capstone/assets/44991601/7648f89f-e419-4b0c-bdd9-b0e5924adf68">
+<img width="1382" alt="image" src="https://github.com/baohuynh0188/udagram-capstone/assets/44991601/851c8e9e-4afa-437f-bbcd-847b55305899">
+<img width="1197" alt="image" src="https://github.com/baohuynh0188/udagram-capstone/assets/44991601/96d61f6c-fbe0-4aa8-b616-1df9443152bd">
+- To edit a todo, click the "pencil" button
+<img width="1198" alt="image" src="https://github.com/baohuynh0188/udagram-capstone/assets/44991601/5ddf4320-24d9-4146-9b30-9bac836adfc4">
+- Enter a new "title"
+<img width="1382" alt="image" src="https://github.com/baohuynh0188/udagram-capstone/assets/44991601/b42b0931-5de4-4267-b97b-13858c0ed644">
+<img width="1176" alt="image" src="https://github.com/baohuynh0188/udagram-capstone/assets/44991601/07a280fc-e6c8-4924-b212-3d462248e6db">
+
 (Option 1): Container
 On DockerHub images for the application are available
 - [DockerHub](https://hub.docker.com/repository/docker/baohuynh0188/client/general)
