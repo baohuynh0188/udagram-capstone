@@ -1,13 +1,5 @@
-import * as React from 'react'
+import React from 'react';
 
-interface NotFoundProps {
-}
+const NotFound = () => <h1>Not Found</h1>;
 
-interface NotFoundState {
-}
-
-export class NotFound extends React.PureComponent<NotFoundProps, NotFoundState> {
-  render() {
-    return <h1>Not Found</h1>
-  }
-}
+export default NotFound;

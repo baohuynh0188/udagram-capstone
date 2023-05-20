@@ -1,7 +1,6 @@
-import dateFormat from 'dateformat'
-import { History } from 'history'
-import update from 'immutability-helper'
-import * as React from 'react'
+import React, { useEffect, useState } from 'react';
+import { History } from 'history';
+import update from 'immutability-helper';
 import {
   Button,
   Checkbox,
@@ -11,92 +10,82 @@ import {
   Icon,
   Image,
   Loader
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
 
-import { deleteTodo, getTodos, patchTodo } from '../api/todos-api'
-import Auth from '../auth/Auth'
-import { Todo } from '../types/Todo'
+import { deleteTodo, getTodos, patchTodo } from '../api/todos-api';
+import Auth from '../auth/Auth';
+import { Todo } from '../types/Todo';
 
 interface TodosProps {
-  auth: Auth
-  history: History
+  auth: Auth;
+  history: History;
 }
 
 interface TodosState {
-  todos: Todo[]
-  newTodoName: string
-  loadingTodos: boolean
+  todos: Todo[];
+  newTodoName: string;
+  loadingTodos: boolean;
 }
 
-export class Todos extends React.PureComponent<TodosProps, TodosState> {
-  state: TodosState = {
+const Todos = ({ auth, history }: TodosProps) => {
+  const [state, setState] = useState<TodosState>({
     todos: [],
     newTodoName: '',
     loadingTodos: true
-  }
+  });
 
-  handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newTodoName: event.target.value })
-  }
+  const onActionTodoClick = (todoId: string) => {
+    history.push(`/todos/${todoId}`);
+  };
 
-  onActionTodoClick = (todoId: string) => {
-    this.props.history.push(`/todos/${todoId}`)
-  }
-
-  onTodoDelete = async (todoId: string) => {
+  const onTodoDelete = async (todoId: string) => {
     try {
-      await deleteTodo(this.props.auth.getIdToken(), todoId)
-      this.setState({
-        todos: this.state.todos.filter((todo) => todo.todoId !== todoId)
-      })
+      await deleteTodo(auth.getIdToken(), todoId);
+      setState((prevState) => ({
+        ...prevState,
+        todos: prevState.todos.filter((todo) => todo.todoId !== todoId)
+      }));
     } catch {
-      alert('Todo deletion failed')
+      alert('Todo deletion failed');
     }
-  }
+  };
 
-  onTodoCheck = async (pos: number) => {
+  const onTodoCheck = async (pos: number) => {
     try {
-      const todo = this.state.todos[pos]
-      await patchTodo(this.props.auth.getIdToken(), todo.todoId, {
+      const todo = state.todos[pos];
+      await patchTodo(auth.getIdToken(), todo.todoId, {
         name: todo.name,
         dueDate: todo.dueDate,
         done: !todo.done
-      })
-      this.setState({
-        todos: update(this.state.todos, {
+      });
+      setState((preState) => ({
+        ...preState,
+        todos: update(preState.todos, {
           [pos]: { done: { $set: !todo.done } }
         })
-      })
+      }));
     } catch {
-      alert('Todo deletion failed')
+      alert('Todo deletion failed');
     }
-  }
+  };
 
-  async componentDidMount() {
-    try {
-      const todos = await getTodos(this.props.auth.getIdToken())
-      this.setState({
-        todos,
-        loadingTodos: false
-      })
-    } catch (e) {
-      alert(`Failed to fetch todos: ${(e as Error).message}`)
-    }
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const todos = await getTodos(auth.getIdToken());
+        setState((prevState) => ({
+          ...prevState,
+          todos,
+          loadingTodos: false
+        }));
+      } catch (e) {
+        alert(`Failed to fetch todos: ${(e as Error).message}`);
+      }
+    };
+    fetchData();
+  }, [auth]);
 
-  render() {
-    return (
-      <div>
-        <Header as="h1">TODOs</Header>
-
-        {this.renderCreateTodoInput()}
-
-        {this.renderTodos()}
-      </div>
-    )
-  }
-
-  renderCreateTodoInput() {
+  const renderCreateTodoInput = () => {
     return (
       <Grid.Row>
         <Grid.Column width={16}>
@@ -104,7 +93,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
             icon
             fluid
             color="olive"
-            onClick={() => this.onActionTodoClick('create-todo')}
+            onClick={() => onActionTodoClick('create-todo')}
           >
             <Icon name="plus" /> Create a new todo
           </Button>
@@ -113,36 +102,36 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
           <Divider />
         </Grid.Column>
       </Grid.Row>
-    )
-  }
+    );
+  };
 
-  renderTodos() {
-    if (this.state.loadingTodos) {
-      return this.renderLoading()
+  const renderTodos = () => {
+    if (state.loadingTodos) {
+      return renderLoading();
     }
 
-    return this.renderTodosList()
-  }
+    return renderTodosList();
+  };
 
-  renderLoading() {
+  const renderLoading = () => {
     return (
       <Grid.Row>
         <Loader indeterminate active inline="centered">
           Loading TODOs
         </Loader>
       </Grid.Row>
-    )
-  }
+    );
+  };
 
-  renderTodosList() {
+  const renderTodosList = () => {
     return (
       <Grid padded>
-        {this.state.todos.map((todo, pos) => {
+        {state.todos.map((todo, pos) => {
           return (
             <Grid.Row key={todo.todoId}>
               <Grid.Column width={1} verticalAlign="middle">
                 <Checkbox
-                  onChange={() => this.onTodoCheck(pos)}
+                  onChange={() => onTodoCheck(pos)}
                   checked={todo.done}
                 />
               </Grid.Column>
@@ -156,7 +145,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
                 <Button
                   icon
                   color="blue"
-                  onClick={() => this.onActionTodoClick(todo.todoId)}
+                  onClick={() => onActionTodoClick(todo.todoId)}
                 >
                   <Icon name="pencil" />
                 </Button>
@@ -165,7 +154,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
                 <Button
                   icon
                   color="red"
-                  onClick={() => this.onTodoDelete(todo.todoId)}
+                  onClick={() => onTodoDelete(todo.todoId)}
                 >
                   <Icon name="delete" />
                 </Button>
@@ -177,16 +166,21 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
                 <Divider />
               </Grid.Column>
             </Grid.Row>
-          )
+          );
         })}
       </Grid>
-    )
-  }
+    );
+  };
 
-  calculateDueDate(): string {
-    const date = new Date()
-    date.setDate(date.getDate() + 7)
+  return (
+    <div>
+      <Header as="h1">TODOs</Header>
 
-    return dateFormat(date, 'yyyy-mm-dd') as string
-  }
-}
+      {renderCreateTodoInput()}
+
+      {renderTodos()}
+    </div>
+  );
+};
+
+export default Todos;
